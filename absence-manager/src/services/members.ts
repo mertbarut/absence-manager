@@ -1,42 +1,16 @@
-import axios from 'axios'
+import http from "../http-common";
+import IMemberData from "../types/member.type"
 
-type Member = {
-  crewID: number,
-  id: number,
-  image: string,
-  name: string,
-  userId: number
-}
-
-type GetAllMembersResponse = {
-  data: Member[];
-}
-
-const membersUrl: string = 'http://localhost:3001/members'
-
-const getAllMembers = async () => {
-  try {
-    const { data, status } = await axios.get<GetAllMembersResponse>(
-      membersUrl,
-      {
-        headers: {
-          Accept: 'application/json'
-        }
-      },
-    );
-
-    console.log('response status is: ', status);
-
-    return data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
-    } else {
-      console.log('unexpected error: ', error);
-      return 'An unexpected error occurred';
-    }
+class MemberDataService {
+  getAll() {
+    return http.get<Array<IMemberData>>("/members");
+  }
+  get(id: number) {
+    return http.get<IMemberData>(`/members/${id}`);
+  }
+  findByUserId(UserId: number) {
+    return http.get<Array<IMemberData>>(`/members?UserId=${UserId}`);
   }
 }
 
-export default { getAllMembers }
+export default new MemberDataService();
