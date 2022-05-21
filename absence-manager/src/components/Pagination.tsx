@@ -1,12 +1,10 @@
-import React, { Dispatch } from "react";
-import { Action } from "redux";
-import { actionCreators } from '../state';
+import { Dispatch } from 'react'
 
 type PaginationProps = {
   postsPerPage: number
   totalPosts: number
-  paginateFront: any
-  paginateBack: any
+  paginateFront: Dispatch<number>
+  paginateBack: Dispatch<number>
   currentPage: number
 }
 
@@ -17,14 +15,12 @@ export default function Pagination({
   paginateBack,
   currentPage,
 }: PaginationProps) {
-
-  console.log(currentPage)
   return (
     <div className='py-2'>
       <div>
         <p className='text-sm text-gray-700'>
           Showing
-          <span className='font-medium'> {currentPage * postsPerPage - 10} </span>
+          <span className='font-medium'> {(currentPage - 1) * postsPerPage} </span>
           to
           <span className='font-medium'> {currentPage * postsPerPage} </span>
           of
@@ -40,7 +36,7 @@ export default function Pagination({
         >
           <a
             onClick={() => {
-              paginateBack(1);
+              paginateBack(1)
             }}
             href='#'
             className='relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
@@ -50,7 +46,7 @@ export default function Pagination({
 
           <a
             onClick={() => {
-              paginateFront(1);
+              (currentPage) * postsPerPage < totalPosts ? paginateFront(1) : paginateFront(0)
             }}
             href='#'
             className='relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
@@ -60,5 +56,5 @@ export default function Pagination({
         </nav>
       </div>
     </div>
-  );
+  )
 }

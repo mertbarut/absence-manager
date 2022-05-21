@@ -1,4 +1,4 @@
-import { ActionType } from "../action-types"
+import { ActionType } from '../action-types'
 
 interface NextPageAction {
   type: ActionType.NEXT
@@ -14,4 +14,23 @@ interface FirstPageAction {
   type: ActionType.FIRST
 }
 
-export type Action = NextPageAction | PreviousPageAction | FirstPageAction
+interface SetDisplayedAbsenceAction {
+  type: ActionType.SETABSENCE
+  payload: number
+}
+
+interface DefaultDisplayedAbsenceAction {
+  type: ActionType.SETDEFAULT
+  payload: number
+}
+
+interface SetTotalAbsencesAction {
+  type: ActionType.SETTOTALABSENCES
+  payload: number
+}
+
+export type PageChangeAction = NextPageAction | PreviousPageAction | FirstPageAction
+
+export type DisplayedAbsenceChangeAction = SetDisplayedAbsenceAction | DefaultDisplayedAbsenceAction
+
+export type TotalAbsencesChangeAction = SetTotalAbsencesAction

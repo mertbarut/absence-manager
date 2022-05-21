@@ -1,16 +1,16 @@
-import http from "../http-common";
-import IMemberData from "../types/member.type"
+import http from '../http-common'
+import IMemberData from '../types/member.type'
 
 class MemberDataService {
   getAll() {
-    return http.get<Array<IMemberData>>("/members");
+    return http.get<Array<IMemberData>>('/members')
   }
   get(id: number) {
-    return http.get<IMemberData>(`/members/${id}`);
+    return http.get<IMemberData>(`/members/${id}`)
   }
   findByUserId(UserId: number) {
-    return http.get<Array<IMemberData>>(`/members?UserId=${UserId}`);
+    return http.get<Array<IMemberData>>(`/members?UserId=${UserId}`)
   }
 }
 
-export default new MemberDataService();
+export default new MemberDataService()

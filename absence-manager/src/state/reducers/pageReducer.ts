@@ -1,19 +1,19 @@
-import { ActionType } from "../action-types"
-import { Action } from "../actions";
+import { ActionType } from '../action-types'
+import { PageChangeAction } from '../actions'
 
-const initialState = 1
+const initialPage = 1
 
-const reducer = (state: number = initialState, action: Action) => {
+const pageReducer = (state: number = initialPage, action: PageChangeAction) => {
   switch (action.type) {
-    case ActionType.NEXT:
-      return state + action.payload;
-    case ActionType.PREV:
-      return state - action.payload < 1 ? initialState : state - action.payload;
-    case ActionType.FIRST:
-      return initialState;
-    default:
-      return state;
+  case ActionType.NEXT:
+    return state + action.payload
+  case ActionType.PREV:
+    return state - action.payload < 1 ? initialPage : state - action.payload
+  case ActionType.FIRST:
+    return initialPage
+  default:
+    return state
   }
 }
 
-export default reducer
+export default pageReducer

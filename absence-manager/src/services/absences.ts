@@ -1,16 +1,16 @@
-import http from "../http-common";
-import IAbsenceData from "../types/absence.type"
+import http from '../http-common'
+import IAbsenceData from '../types/absence.type'
 
 class AbsenceDataService {
   getAll() {
-    return http.get<Array<IAbsenceData>>("/absences");
+    return http.get<Array<IAbsenceData>>('/absences')
   }
   get(id: number) {
-    return http.get<IAbsenceData>(`/absences/${id}`);
+    return http.get<IAbsenceData>(`/absences/${id}`)
   }
   findByType(type: string) {
-    return http.get<Array<IAbsenceData>>(`/absences?type=${type}`);
+    return http.get<Array<IAbsenceData>>(`/absences?type=${type}`)
   }
 }
 
-export default new AbsenceDataService();
+export default new AbsenceDataService()
