@@ -21,13 +21,16 @@ function App() {
     <div className="App">
       <NavBar />
       <AbsenceList />
-      <Pagination
-        postsPerPage={10}
-        paginateBack={goToPrevPage}
-        paginateFront={goToNextPage}
-        currentPage={currentPage}
-        totalPosts={totalAbsences}
-      />
+      {
+        totalAbsences !== 0 &&
+        <Pagination
+          postsPerPage={10}
+          paginateBack={goToPrevPage}
+          paginateFront={goToNextPage}
+          currentPage={currentPage}
+          totalPosts={totalAbsences}
+        />
+      }
     </div>
   )
 }

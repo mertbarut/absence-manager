@@ -6,6 +6,8 @@ import IMemberData from '../types/member.type'
 import Absences from './Absences'
 import AbsenceHeader from './AbsencesHeader'
 import FilterBar from './FilterBar'
+import LoadingNotification from './LoadingNotification'
+import ErrorNotification from './ErrorNotification'
 
 type Props = Record<string, unknown>
 
@@ -14,7 +16,9 @@ type State = {
   members: Array<IMemberData>,
   currentAbsence: IAbsenceData | null,
   currentIndex: number,
-  query: string
+  query: string,
+  responseStatus: number,
+  loading: boolean
 }
 
 export default class AbsencesList extends Component<Props, State>{
@@ -30,7 +34,9 @@ export default class AbsencesList extends Component<Props, State>{
       members: [],
       currentAbsence: null,
       currentIndex: -1,
-      query: ''
+      query: '',
+      responseStatus: 0,
+      loading: true
     }
   }
   componentDidMount() {
@@ -46,7 +52,8 @@ export default class AbsencesList extends Component<Props, State>{
     AbsenceDataService.getAll()
       .then((response) => {
         this.setState({
-          absences: response.data
+          absences: response.data,
+          responseStatus: response.status
         })
         console.log(response.data)
       })
@@ -54,7 +61,9 @@ export default class AbsencesList extends Component<Props, State>{
         MemberDataService.getAll()
           .then((response) => {
             this.setState({
-              members: response.data
+              members: response.data,
+              responseStatus: response.status,
+              loading: false
             })
             console.log(response.data)
           })
@@ -97,12 +106,24 @@ export default class AbsencesList extends Component<Props, State>{
   }
 
   render() {
-    const { query, absences, members } = this.state
+    const { query, absences, members, responseStatus, loading } = this.state
 
-    if (absences.length === 0 || members.length === 0) {
+    if (!(responseStatus === 200 || responseStatus === 304)) {
       return (
-        <div>
-          loading...
+        <div
+          className='flex justify-center p-5'
+        >
+          <ErrorNotification />
+        </div>
+      )
+    }
+
+    if (loading) {
+      return (
+        <div
+          className='flex justify-center p-5'
+        >
+          <LoadingNotification />
         </div>
       )
     }
