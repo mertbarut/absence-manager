@@ -10,10 +10,18 @@ import ExtraAbsence from './ExtraAbsence'
 export type AbsencesProps = {
   absences: Array<IAbsenceData>,
   members: Array<IMemberData>,
-  query: string
+  queryType: string,
+  queryStartDate: Date,
+  queryEndDate: Date
 }
 
-const Absences = ({ absences, members, query }: AbsencesProps) => {
+const Absences = ({
+  absences,
+  members,
+  queryType,
+  queryStartDate,
+  queryEndDate
+}: AbsencesProps) => {
   const currentPage = useSelector((state: State) => state.page)
   const displayedAbsence = useSelector((state: State) => state.displayedAbsence)
   const dispatch = useDispatch()
@@ -22,14 +30,14 @@ const Absences = ({ absences, members, query }: AbsencesProps) => {
   } = bindActionCreators(actionCreators, dispatch)
 
   useEffect(() => {
-    return () => {
-      setTotalAbsences(absences
-        .filter((absence) => (
-          absence.type.toLowerCase().includes(query.toLowerCase())
-        ))
-        .length)
-    }
-  }, [query])
+    setTotalAbsences(absences
+      .filter((absence) => (
+        absence.type.toLowerCase().includes(queryType.toLowerCase()) &&
+        new Date(absence.startDate) >= queryStartDate &&
+        new Date(absence.endDate) <= queryEndDate
+      ))
+      .length)
+  }, [queryType, queryStartDate, queryEndDate])
 
   return (
     <div
@@ -37,10 +45,14 @@ const Absences = ({ absences, members, query }: AbsencesProps) => {
     >
       <ul>
         {absences
+          .sort((absence1, absence2) => (
+            new Date(absence1.startDate).getTime() - new Date(absence2.startDate).getTime()
+          ))
           .filter((absence) => (
-            absence.type.toLowerCase().includes(query.toLowerCase())
-          )
-          )
+            absence.type.toLowerCase().includes(queryType.toLowerCase()) &&
+            new Date(absence.startDate) >= queryStartDate &&
+            new Date(absence.endDate) <= queryEndDate
+          ))
           .slice((currentPage - 1) * 10, currentPage * 10)
           .map((absence) => (
             <li

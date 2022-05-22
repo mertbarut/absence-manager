@@ -5,7 +5,6 @@ import IAbsenceData from '../types/absence.type'
 import IMemberData from '../types/member.type'
 import Absences from './Absences'
 import AbsenceHeader from './AbsencesHeader'
-import FilterBar from './FilterBar'
 import LoadingNotification from './LoadingNotification'
 import ErrorNotification from './ErrorNotification'
 
@@ -16,7 +15,9 @@ type State = {
   members: Array<IMemberData>,
   currentAbsence: IAbsenceData | null,
   currentIndex: number,
-  query: string,
+  queryType: string,
+  queryStartDate: Date,
+  queryEndDate: Date,
   responseStatus: number,
   loading: boolean
 }
@@ -24,17 +25,19 @@ type State = {
 export default class AbsencesList extends Component<Props, State>{
   constructor(props: Props) {
     super(props)
-    this.onChangeSearchQuery = this.onChangeSearchQuery.bind(this)
+    this.onChangeQueryType = this.onChangeQueryType.bind(this)
+    this.onChangeQueryStartDate = this.onChangeQueryStartDate.bind(this)
+    this.onChangeQueryEndDate = this.onChangeQueryEndDate.bind(this)
     this.retrieveData = this.retrieveData.bind(this)
-    this.refreshList = this.refreshList.bind(this)
-    this.setActiveAbsence = this.setActiveAbsence.bind(this)
-    this.searchQuery = this.searchQuery.bind(this)
+
     this.state = {
       absences: [],
       members: [],
       currentAbsence: null,
       currentIndex: -1,
-      query: '',
+      queryType: '',
+      queryStartDate: new Date(),
+      queryEndDate: new Date(),
       responseStatus: 0,
       loading: true
     }
@@ -42,10 +45,22 @@ export default class AbsencesList extends Component<Props, State>{
   componentDidMount() {
     this.retrieveData()
   }
-  onChangeSearchQuery(e: ChangeEvent<HTMLInputElement>) {
-    const searchQuery = e.target.value
+  onChangeQueryType(e: ChangeEvent<HTMLInputElement>) {
+    const searchQueryType = e.target.value
     this.setState({
-      query: searchQuery
+      queryType: searchQueryType
+    })
+  }
+  onChangeQueryStartDate(e: ChangeEvent<HTMLInputElement>) {
+    const searchQueryType = e.target.value
+    this.setState({
+      queryStartDate: new Date(searchQueryType)
+    })
+  }
+  onChangeQueryEndDate(e: ChangeEvent<HTMLInputElement>) {
+    const searchQueryType = e.target.value
+    this.setState({
+      queryEndDate: new Date(searchQueryType)
     })
   }
   retrieveData() {
@@ -53,7 +68,12 @@ export default class AbsencesList extends Component<Props, State>{
       .then((response) => {
         this.setState({
           absences: response.data,
-          responseStatus: response.status
+          responseStatus: response.status,
+          queryStartDate: new Date(response.data
+            .map((absence) => absence.startDate)
+            .sort((date1, date2) => (
+              new Date(date1).getTime() - new Date(date2).getTime())
+            )[0]) // take starting dates out of absences array, sort it and return the first one
         })
         console.log(response.data)
       })
@@ -75,48 +95,17 @@ export default class AbsencesList extends Component<Props, State>{
         console.log(e)
       })
   }
-  refreshList() {
-    this.retrieveData()
-    this.setState({
-      currentAbsence: null,
-      currentIndex: -1
-    })
-  }
-  setActiveAbsence(absence: IAbsenceData, index: number) {
-    this.setState({
-      currentAbsence: absence,
-      currentIndex: index
-    })
-  }
-  searchQuery() {
-    this.setState({
-      currentAbsence: null,
-      currentIndex: -1
-    })
-    AbsenceDataService.findByType(this.state.query)
-      .then((response) => {
-        this.setState({
-          absences: response.data
-        })
-        console.log(response.data)
-      })
-      .catch((e: Error) => {
-        console.log(e)
-      })
-  }
 
   render() {
-    const { query, absences, members, responseStatus, loading } = this.state
-
-    if (!(responseStatus === 200 || responseStatus === 304)) {
-      return (
-        <div
-          className='flex justify-center p-5'
-        >
-          <ErrorNotification />
-        </div>
-      )
-    }
+    const {
+      queryType,
+      queryStartDate,
+      queryEndDate,
+      absences,
+      members,
+      responseStatus,
+      loading
+    } = this.state
 
     if (loading) {
       return (
@@ -128,23 +117,37 @@ export default class AbsencesList extends Component<Props, State>{
       )
     }
 
+    if (!(responseStatus === 200 || responseStatus === 304)) {
+      return (
+        <div
+          className='flex justify-center p-5'
+        >
+          <ErrorNotification />
+        </div>
+      )
+    }
+
     return (
       <div>
         <div
           className='flex justify-center'
         >
-          <FilterBar
-            query={query}
-            onChangeSearchQuery={this.onChangeSearchQuery}
-            searchQuery={this.searchQuery}
-          />
         </div>
         <div>
-          <AbsenceHeader />
+          <AbsenceHeader
+            queryType={queryType}
+            queryStartDate={queryStartDate}
+            queryEndDate={queryEndDate}
+            onChangeQueryType={this.onChangeQueryType}
+            onChangeQueryStartDate={(date: Date) => this.setState({ queryStartDate: date })}
+            onChangeQueryEndDate={(date: Date) => this.setState({ queryEndDate: date })}
+          />
           <Absences
             absences={absences}
             members={members}
-            query={query}
+            queryType={queryType}
+            queryStartDate={queryStartDate}
+            queryEndDate={queryEndDate}
           />
         </div>
       </div>
