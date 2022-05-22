@@ -1,20 +1,22 @@
-import { Dispatch } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators, State } from '../state'
 
 type PaginationProps = {
   postsPerPage: number
-  totalPosts: number
-  paginateFront: Dispatch<number>
-  paginateBack: Dispatch<number>
-  currentPage: number
 }
 
 export default function Pagination({
   postsPerPage,
-  totalPosts,
-  paginateFront,
-  paginateBack,
-  currentPage,
 }: PaginationProps) {
+  const dispatch = useDispatch()
+  const {
+    goToNextPage,
+    goToPrevPage,
+  } = bindActionCreators(actionCreators, dispatch)
+  const currentPage = useSelector((state: State) => state.page)
+  const totalAbsences = useSelector((state: State) => state.totalAbsences)
+
   return (
     <div className='py-2'>
       <div>
@@ -24,7 +26,7 @@ export default function Pagination({
           to
           <span className='font-medium'> {currentPage * postsPerPage} </span>
           of
-          <span className='font-medium'> {totalPosts} </span>
+          <span className='font-medium'> {totalAbsences} </span>
           results
         </p>
       </div>
@@ -36,7 +38,7 @@ export default function Pagination({
         >
           <a
             onClick={() => {
-              paginateBack(1)
+              goToPrevPage(1)
             }}
             href='#'
             className='relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
@@ -46,7 +48,7 @@ export default function Pagination({
 
           <a
             onClick={() => {
-              (currentPage) * postsPerPage < totalPosts ? paginateFront(1) : paginateFront(0)
+              (currentPage) * postsPerPage < totalAbsences ? goToNextPage(1) : goToNextPage(0)
             }}
             href='#'
             className='relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
