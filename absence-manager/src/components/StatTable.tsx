@@ -76,16 +76,16 @@ const StatTable = ({ absence, member }: AbsenceProps ) => {
 
             </td>
             <td
-              className="w-32 text-sm font-light text-gray-900 text-left px-4"
+              className="w-24 text-sm font-light text-gray-900 text-left px-4"
             >
               <button
                 id={`display-button-${absence.id}`}
                 style={ displayedAbsence !== -1 && absence.id === displayedAbsence ? { backgroundColor: 'rgb(251 113 133)', color: 'rgb(255 255 255)' } : { backgroundColor: 'rgb(129 140 248)', color: 'rgb(255 255 255)' } }
                 type="button"
                 onClick={ displayedAbsence === -1 && absence.id !== displayedAbsence ? (() => setDisplayedAbsence(absence.id)) : (() => setDisplayedAbsence(-1)) }
-                className="inline-block px-6 py-2 w-32 font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none active:shadow-lg"
+                className="inline-block py-2 w-12 font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none active:shadow-lg"
               >
-                { displayedAbsence !== -1 && absence.id === displayedAbsence ? 'Hide Notes' : 'Show Notes' }
+                { displayedAbsence !== -1 && absence.id === displayedAbsence ? 'Less' : 'More' }
               </button>
             </td>
           </tr>

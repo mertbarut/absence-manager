@@ -24,7 +24,7 @@ const AbsencesHeader = ( {
       className="flex justify-center text-gray-700 font-semibold text-xl mb-2 border-t-2 py-2 h-16 min-w-[1500px]"
     >
       <div
-        className="flex justify-center w-2"
+        className="flex justify-center w-[72px]"
       />
       <StatTableHeader
         queryType={queryType}

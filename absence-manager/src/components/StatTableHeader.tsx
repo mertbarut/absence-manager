@@ -84,7 +84,7 @@ const StatTableHeader = ({
               scope="col"
               className="w-32 text-sm font-medium text-gray-900 text-left px-4"
             >
-              Options
+
             </th>
           </tr>
         </thead>

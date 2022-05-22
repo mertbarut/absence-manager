@@ -41,9 +41,8 @@ const Absences = ({
       .length)
   }, [queryType, queryStartDate, queryEndDate])
 
-  console.log(absences.length)
-
   return (
+
     <div
       className='flex justify-center min-h-[600px] min-w-[1500px]'
     >
@@ -80,6 +79,7 @@ const Absences = ({
                       {
                         <ExtraAbsence
                           absence={absence}
+                          member={members.filter((member) => member.userId === absence.userId)[0]}
                         />
                       }
                     </div>
