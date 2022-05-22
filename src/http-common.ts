@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-  baseURL: 'http://localhost:3001/',
+  baseURL: 'https://mbarut-absence-manager-api.herokuapp.com/',
   headers: {
     'Content-type': 'application/json'
   }

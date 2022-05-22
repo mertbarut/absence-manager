@@ -1,6 +1,7 @@
 {
   "name": "absence-manager",
   "version": "0.1.0",
+  "homepage": "https://mbarut.github.io/absence-manager",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
@@ -31,7 +32,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server -p3001 --watch db.json",
-    "eslint": "eslint . --fix"
+    "eslint": "eslint . --fix",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +57,7 @@
   "devDependencies": {
     "@types/react-datepicker": "^4.4.1",
     "autoprefixer": "^10.4.7",
+    "gh-pages": "^4.0.0",
     "json-server": "^0.17.0",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.0.24"
