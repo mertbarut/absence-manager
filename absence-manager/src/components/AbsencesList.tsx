@@ -144,6 +144,7 @@ export default class AbsencesList extends Component<Props, State>{
           <Absences
             absences={absences}
             members={members}
+            query={query}
           />
         </div>
       </div>

@@ -10,9 +10,10 @@ import ExtraAbsence from './ExtraAbsence'
 export type AbsencesProps = {
   absences: Array<IAbsenceData>,
   members: Array<IMemberData>,
+  query: string
 }
 
-const Absences = ({ absences, members }: AbsencesProps) => {
+const Absences = ({ absences, members, query }: AbsencesProps) => {
   const currentPage = useSelector((state: State) => state.page)
   const displayedAbsence = useSelector((state: State) => state.displayedAbsence)
   const dispatch = useDispatch()
@@ -22,9 +23,13 @@ const Absences = ({ absences, members }: AbsencesProps) => {
 
   useEffect(() => {
     return () => {
-      setTotalAbsences(absences.length)
+      setTotalAbsences(absences
+        .filter((absence) => (
+          absence.type.toLowerCase().includes(query.toLowerCase())
+        ))
+        .length)
     }
-  }, [])
+  }, [query])
 
   return (
     <div
@@ -32,6 +37,10 @@ const Absences = ({ absences, members }: AbsencesProps) => {
     >
       <ul>
         {absences
+          .filter((absence) => (
+            absence.type.toLowerCase().includes(query.toLowerCase())
+          )
+          )
           .slice((currentPage - 1) * 10, currentPage * 10)
           .map((absence) => (
             <li

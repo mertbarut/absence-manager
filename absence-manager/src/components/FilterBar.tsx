@@ -7,6 +7,7 @@ interface FilterBarPropTypes {
 }
 
 function FilterBar({ query, onChangeSearchQuery, searchQuery }: FilterBarPropTypes) {
+  console.log(query)
   return (
     <div>
       <div
