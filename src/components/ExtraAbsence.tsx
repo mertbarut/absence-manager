@@ -11,10 +11,10 @@ export type ExtraAbsenceProps = {
 const ExtraAbsence = ({ absence, member }: ExtraAbsenceProps ) => {
   return (
     <div
-      className="max-w-sm lg:max-w-3xl rounded overflow-hidden shadow-lg"
+      className="w-[320px] rounded overflow-hidden shadow-lg"
     >
       <div
-        className="px-6 py-4 bg-amber-100"
+        className="px-6 py-4 bg-sky-100"
       >
         <NoteTable
           absence={absence}

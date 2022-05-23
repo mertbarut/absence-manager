@@ -9,14 +9,14 @@ function FilterBar({ query, onChangeQuery }: FilterBarPropTypes) {
   return (
     <div>
       <div
-        className="input-group relative flex justify-center my-1"
+        className="input-group relative flex justify-center"
       >
         <input
           type="search"
-          placeholder="filter"
+          placeholder=""
           value={query}
           onChange={onChangeQuery}
-          className='w-16 text-sm font-light pl-2 border-2 border-gray-300 rounded-md'
+          className='w-16 lg:w-32 text-xs lg:text-lg font-light pl-2 border-2 border-gray-300 rounded-md'
         />
       </div>
     </div>

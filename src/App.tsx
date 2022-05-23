@@ -10,7 +10,9 @@ function App() {
   const totalAbsences = useSelector((state: State) => state.totalAbsences)
 
   return (
-    <div className="App">
+    <div
+      className="App w-screen"
+    >
       <NavBar />
       <AbsenceList />
       {

@@ -16,81 +16,54 @@ const StatTable = ({ absence, member }: AbsenceProps ) => {
 
   const { setDisplayedAbsence } = bindActionCreators(actionCreators, dispatch)
 
-  const startDate = new Date(absence.startDate + 'T00:00:00')
-  const endDate = new Date(absence.endDate + 'T00:00:00')
-  const dayDifference = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
-
   return (
     <div
       data-testid="stattable"
-      className="shrink-0 border-l-2"
+      className="grid grid-cols-5 shrink-0 place-items-center"
     >
-      <table
-        className="min-w-full"
+      <div
+        className="w-16 lg:w-32 text-xs lg:text-lg font-light text-gray-900 text-right"
       >
-        <tbody>
-          <tr>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-center"
-            >
-              {member.name}
-            </td>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-center"
-            >
-              {absence.type}
-            </td>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-center"
-            >
-              {absence.startDate}
-            </td>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-center"
-            >
-              {absence.endDate}
-            </td>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-center"
-            >
-              {dayDifference < 1 ? 'Less than a day' : (dayDifference === 1 ? '1 day' : `${dayDifference} days`)}
-            </td>
-            <td
-              className="w-6 whitespace-nowrap text-sm font-light text-gray-900 text-center"
-            >
-
-            </td>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-center"
-            >
-              <pre
-                style={ absence.rejectedAt ? { color: 'white', backgroundColor: '#dc2626' } : ( absence.confirmedAt ? { color: 'white', backgroundColor: '#16a34a' } : { color: 'white', backgroundColor: '#2563eb' }) }
-                className="text-sm px-1 py-1 text-center font-bold rounded-full"
-              >
-                {absence.rejectedAt ? ' Rejected ' : ( absence.confirmedAt ? 'Confirmed' : 'Requested')}
-              </pre>
-            </td>
-            <td
-              className="w-6 whitespace-nowrap text-sm font-light text-gray-900 text-center border-r-2"
-            >
-
-            </td>
-            <td
-              className="w-24 text-sm font-light text-gray-900 text-left px-4"
-            >
-              <button
-                id={`display-button-${absence.id}`}
-                style={ displayedAbsence !== -1 && absence.id === displayedAbsence ? { backgroundColor: 'rgb(251 113 133)', color: 'rgb(255 255 255)' } : { backgroundColor: 'rgb(129 140 248)', color: 'rgb(255 255 255)' } }
-                type="button"
-                onClick={ displayedAbsence === -1 && absence.id !== displayedAbsence ? (() => setDisplayedAbsence(absence.id)) : (() => setDisplayedAbsence(-1)) }
-                className="inline-block py-2 w-12 font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none active:shadow-lg"
-              >
-                { displayedAbsence !== -1 && absence.id === displayedAbsence ? 'Less' : 'More' }
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        {member.name}
+      </div>
+      <div
+        className="w-16 lg:w-32 text-xs lg:text-lg font-light text-gray-900 text-center"
+      >
+        {absence.type}
+      </div>
+      <div
+        className="w-20 lg:w-32 text-xs lg:text-lg font-light text-gray-900 text-center"
+      >
+        {absence.startDate}
+      </div>
+      <div
+        className="w-20 lg:w-32 text-xs lg:text-lg font-light text-gray-900 text-center"
+      >
+        {absence.endDate}
+      </div>
+      <div
+        className="w-16 lg:w-32 text-sm font-light text-gray-900 text-left lg:text-center"
+      >
+        <button
+          id={`display-button-${absence.id}`}
+          style={ displayedAbsence !== -1 && absence.id === displayedAbsence ? { backgroundColor: 'rgb(251 113 133)', color: 'rgb(255 255 255)' } : { backgroundColor: 'rgb(129 140 248)', color: 'rgb(255 255 255)' } }
+          type="button"
+          onClick={ displayedAbsence === -1 && absence.id !== displayedAbsence ? (() => setDisplayedAbsence(absence.id)) : (() => setDisplayedAbsence(-1)) }
+          className="inline-block p-1 font-medium text-xs lg:text-lg leading-tight uppercase rounded-full shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none active:shadow-lg"
+        >
+          {
+            displayedAbsence !== -1 && absence.id === displayedAbsence
+              ?
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+              </svg>
+              :
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+          }
+        </button>
+      </div>
     </div>
   )
 }

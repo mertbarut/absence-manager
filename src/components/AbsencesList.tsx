@@ -110,7 +110,7 @@ export default class AbsencesList extends Component<Props, State>{
     if (loading) {
       return (
         <div
-          className='flex justify-center p-5'
+          className='flex-col justify-center pt-4 px-1'
         >
           <LoadingNotification />
         </div>
@@ -120,7 +120,7 @@ export default class AbsencesList extends Component<Props, State>{
     if (!(responseStatus === 200 || responseStatus === 304)) {
       return (
         <div
-          className='flex justify-center p-5'
+          className='flex-col justify-center pt-4 px-1'
         >
           <ErrorNotification />
         </div>
@@ -128,28 +128,24 @@ export default class AbsencesList extends Component<Props, State>{
     }
 
     return (
-      <div>
-        <div
-          className='flex justify-center'
-        >
-        </div>
-        <div>
-          <AbsenceHeader
-            queryType={queryType}
-            queryStartDate={queryStartDate}
-            queryEndDate={queryEndDate}
-            onChangeQueryType={this.onChangeQueryType}
-            onChangeQueryStartDate={(date: Date) => this.setState({ queryStartDate: date })}
-            onChangeQueryEndDate={(date: Date) => this.setState({ queryEndDate: date })}
-          />
-          <Absences
-            absences={absences}
-            members={members}
-            queryType={queryType}
-            queryStartDate={queryStartDate}
-            queryEndDate={queryEndDate}
-          />
-        </div>
+      <div
+        className='flex-col justify-center pt-4 px-1'
+      >
+        <AbsenceHeader
+          queryType={queryType}
+          queryStartDate={queryStartDate}
+          queryEndDate={queryEndDate}
+          onChangeQueryType={this.onChangeQueryType}
+          onChangeQueryStartDate={(date: Date) => this.setState({ queryStartDate: date })}
+          onChangeQueryEndDate={(date: Date) => this.setState({ queryEndDate: date })}
+        />
+        <Absences
+          absences={absences}
+          members={members}
+          queryType={queryType}
+          queryStartDate={queryStartDate}
+          queryEndDate={queryEndDate}
+        />
       </div>
     )
   }

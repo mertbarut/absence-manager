@@ -44,7 +44,7 @@ const Absences = ({
   return (
 
     <div
-      className='flex justify-center min-h-[600px] min-w-[1500px]'
+      className='flex justify-center'
     >
       {
         totalAbsences === 0
@@ -65,7 +65,7 @@ const Absences = ({
               .map((absence) => (
                 <li
                   key={absence.id}
-                  className='text-gray-700 font-semibold text-xl mb-2 border rounded-lg p-2'
+                  className='text-gray-700 font-semibold text-xl mb-0.5 border rounded-lg py-2'
                 >
                   <Absence
                     absence={absence}

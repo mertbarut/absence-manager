@@ -9,52 +9,68 @@ export type AbsenceProps = {
 }
 
 const NoteTable = ({ absence, member }: AbsenceProps ) => {
+  const startDate = new Date(absence.startDate + 'T00:00:00')
+  const endDate = new Date(absence.endDate + 'T00:00:00')
+  const dayDifference = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+
   return (
     <div
       data-testid="notetable"
-      className="shrink-0 py-2"
+      className="grid grid-cols-2 grid-rows-5 place-items-center gap-2"
     >
-      <table>
-        <thead>
-          <tr>
-            <th
-              scope="col"
-              className="w-96 text-sm font-medium text-gray-900 text-center border-r-2 border-gray-300"
-            >
-              Member Note
-            </th>
-
-            <th
-              scope="col"
-              className="w-96 text-sm font-medium text-gray-900 text-center border-r-2 border-gray-300"
-            >
-              Admitter Note
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td
-              className="w-64 text-sm font-light text-gray-900 text-center border-r-2 border-gray-300"
-            >
-              {absence.memberNote ? <q>{absence.memberNote}</q> : <em>N/A</em>}
-            </td>
-            <td
-              className="w-64 text-sm font-light text-gray-900 text-center border-r-2 border-gray-300"
-            >
-              {absence.admitterNote ? <q>{absence.admitterNote}</q> : <em>N/A</em>}
-            </td>
-            <td
-              className="w-16 px-2 text-sm underline font-bold text-blue-600 text-center"
-            >
-              <Event
-                absence={absence}
-                member={member}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div
+        className="text-sm font-medium text-gray-900 text-center"
+      >
+        Status
+      </div>
+      <div
+        className="w-24 text-sm font-light text-gray-900 text-center items-center"
+      >
+        <pre
+          style={ absence.rejectedAt ? { color: 'white', backgroundColor: '#dc2626' } : ( absence.confirmedAt ? { color: 'white', backgroundColor: '#16a34a' } : { color: 'white', backgroundColor: '#2563eb' }) }
+          className="text-sm p-1 text-center font-bold rounded-full"
+        >
+          {absence.rejectedAt ? ' Rejected ' : ( absence.confirmedAt ? 'Confirmed' : 'Requested')}
+        </pre>
+      </div>
+      <div
+        className="text-sm font-medium text-gray-900 text-center"
+      >
+        Period
+      </div>
+      <div
+        className="w-24 text-sm font-light text-gray-900 text-center"
+      >
+        {dayDifference < 1 ? 'Less than a day' : (dayDifference === 1 ? '1 day' : `${dayDifference} days`)}
+      </div>
+      <div
+        className="text-sm font-medium text-gray-900 text-center"
+      >
+        Member Note
+      </div>
+      <div
+        className="text-sm font-light text-gray-900 text-center"
+      >
+        {absence.memberNote ? <q>{absence.memberNote}</q> : <em>N/A</em>}
+      </div>
+      <div
+        className="text-sm font-medium text-gray-900 text-center"
+      >
+        Admitter Note
+      </div>
+      <div
+        className="text-sm font-light text-gray-900 text-center"
+      >
+        {absence.admitterNote ? <q>{absence.admitterNote}</q> : <em>N/A</em>}
+      </div>
+      <div
+        className="col-span-2 text-sm underline font-bold text-blue-600 text-center"
+      >
+        <Event
+          absence={absence}
+          member={member}
+        />
+      </div>
     </div>
   )
 }
