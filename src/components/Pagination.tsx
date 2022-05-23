@@ -19,17 +19,6 @@ export default function Pagination({
 
   return (
     <div className='py-2'>
-      <div>
-        <p className='text-sm text-gray-700'>
-          Showing
-          <span className='font-medium'> {(currentPage - 1) * postsPerPage} </span>
-          to
-          <span className='font-medium'> {currentPage * postsPerPage} </span>
-          of
-          <span className='font-medium'> {totalAbsences} </span>
-          results
-        </p>
-      </div>
       <nav className='block'></nav>
       <div>
         <nav
@@ -56,6 +45,17 @@ export default function Pagination({
             <span>Next</span>
           </a>
         </nav>
+        <div>
+          <p className='text-sm text-gray-700 py-2'>
+            Showing
+            <span className='font-medium'> {(currentPage - 1) * postsPerPage} </span>
+            to
+            <span className='font-medium'> {currentPage * postsPerPage} </span>
+            of
+            <span className='font-medium'> {totalAbsences} </span>
+            results
+          </p>
+        </div>
       </div>
     </div>
   )

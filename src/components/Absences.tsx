@@ -44,7 +44,7 @@ const Absences = ({
   return (
 
     <div
-      className='flex justify-center'
+      className='flex justify-center h-[530px]'
     >
       {
         totalAbsences === 0
